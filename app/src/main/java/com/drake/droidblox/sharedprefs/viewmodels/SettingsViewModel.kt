@@ -5,8 +5,8 @@ import com.drake.droidblox.sharedprefs.SettingsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-@HiltViewModel
-class SettingsViewModel @Inject constructor(
-  private val settingsManager: SettingsManager
-): ViewModel() {
-}
+//@HiltViewModel
+//class SettingsViewModel @Inject constructor(
+//  private val settingsManager: SettingsManager
+//): ViewModel() {
+//}

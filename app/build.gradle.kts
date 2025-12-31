@@ -106,3 +106,8 @@ dependencies {
     // Pine
     implementation(libs.pine.xposed)
 }
+
+// https://stackoverflow.com/a/79612057
+hilt {
+    enableAggregatingTask = false
+}
