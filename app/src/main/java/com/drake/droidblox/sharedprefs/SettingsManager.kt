@@ -54,4 +54,5 @@ class SettingsManager(
     var showGameActivity by BooleanBased("showGameActivity", true)
     var allowActivityJoining by BooleanBased("allowActivityJoining", false)
     var showRobloxUser by BooleanBased("showRobloxUser", false)
+    var applyFFlags by BooleanBased("applyFFlags", true)
 }
