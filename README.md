@@ -7,7 +7,6 @@ This is also meant to replace the root method implementated right now with a pat
 Once this application is stable, it will be merged into the [main repository](https://github.com/meowstrapper/DroidBlox)
 
 # TODO
-- [ ] Hook every Roblox code shit that doesn't want this project done by 2026
 - [ ] Optimize code
 - [ ] Implement DI to compose functions and classes
 - [ ] Make the navigation animation smooth
