@@ -9,6 +9,7 @@ Once this application is stable, it will be merged into the [main repository](ht
 # TODO
 - [ ] Optimize code
 - [ ] Implement DI to compose functions and classes
+- [ ] Add fflags manager for sharedprefs
 - [ ] Make the navigation animation smooth
 
 # Credits
