@@ -10,8 +10,8 @@ plugins {
     kotlin("plugin.serialization") version "2.2.0"
 
     // Hilt
-    alias(libs.plugins.dagger.hilt.android)
-    alias(libs.plugins.google.devtools.ksp)
+    //alias(libs.plugins.dagger.hilt.android)
+    //alias(libs.plugins.google.devtools.ksp)
 }
 
 android {
@@ -38,12 +38,12 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlin {
         compilerOptions {
-            jvmTarget = JvmTarget.JVM_1_8
+            jvmTarget = JvmTarget.JVM_11
         }
     }
     buildFeatures {
@@ -77,8 +77,8 @@ dependencies {
     implementation(libs.coil3.network.ktor3)
 
     // Dagger Hilt
-    implementation(libs.dagger.hilt.android)
-    ksp(libs.dagger.hilt.compiler)
+    //implementation(libs.dagger.hilt.android)
+    //ksp(libs.dagger.hilt.compiler)
 
     // Google Accompanist
     implementation(libs.accompanist.navigation.animation)
@@ -97,17 +97,17 @@ dependencies {
     implementation(libs.org.jetbrains.kotlin.plugin.serialization.gradle.plugin)
 
     // Javax
-    implementation(libs.javax)
+    //implementation(libs.javax)
 
     // Junit
     testImplementation(libs.junit)
     testImplementation(libs.junit.jupiter)
 
     // Pine
-    implementation(libs.pine.xposed)
+    //implementation(libs.pine.xposed)
 }
 
 // https://stackoverflow.com/a/79612057
-hilt {
-    enableAggregatingTask = false
-}
+//hilt {
+//    enableAggregatingTask = false
+//}
