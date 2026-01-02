@@ -3,11 +3,16 @@ package com.drake.droidblox
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import com.drake.droidblox.apiservice.DiscordApi
+import com.drake.droidblox.apiservice.IpLocationApi
+import com.drake.droidblox.apiservice.RobloxApi
+import com.drake.droidblox.apiservice.httpclient.customHttpClient
+import com.drake.droidblox.logger.AndroidLogger
 import com.drake.droidblox.sharedprefs.PlaySessionsManager
 import com.drake.droidblox.sharedprefs.SettingsManager
-import dagger.hilt.android.HiltAndroidApp
+//import dagger.hilt.android.HiltAndroidApp
 
-@HiltAndroidApp
+//@HiltAndroidApp
 class DBApplication : Application() {
     companion object {
         private const val TAG = "DBApplication"
@@ -17,6 +22,12 @@ class DBApplication : Application() {
 
     val settingsManager: SettingsManager by lazy { SettingsManager(applicationContext) }
     val playSessionsManager: PlaySessionsManager by lazy { PlaySessionsManager(applicationContext) }
+
+    // TODO: depend on DI
+    private val httpClient = customHttpClient(AndroidLogger)
+    val discordApi: DiscordApi by lazy { DiscordApi(AndroidLogger, httpClient) }
+    val ipLocationApi: IpLocationApi by lazy { IpLocationApi(AndroidLogger, httpClient) }
+    val robloxApi: RobloxApi by lazy { RobloxApi(AndroidLogger, httpClient) }
 
     override fun onCreate() {
         super.onCreate()

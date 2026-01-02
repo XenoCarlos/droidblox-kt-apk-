@@ -11,7 +11,7 @@ import kotlinx.serialization.json.Json
 
 private const val TAG = "DBHttpClient"
 
-fun CustomHttpClient(customLogger: Logger) = HttpClient {
+fun customHttpClient(customLogger: Logger) = HttpClient {
     install(ContentNegotiation) {
         json(Json {
             ignoreUnknownKeys = true

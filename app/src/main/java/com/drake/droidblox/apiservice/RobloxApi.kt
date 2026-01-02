@@ -13,13 +13,13 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import javax.inject.Inject
+//import javax.inject.Inject
 import kotlinx.serialization.json.Json
-import javax.inject.Singleton
+//import javax.inject.Singleton
 import kotlin.collections.mapNotNull
 
-@Singleton
-class RobloxApi @Inject constructor(
+//@Singleton
+class RobloxApi (//@Inject constructor(
     private val logger: Logger,
     private val httpClient: HttpClient
 ) {

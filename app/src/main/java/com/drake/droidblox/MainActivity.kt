@@ -6,9 +6,9 @@ import androidx.activity.compose.*
 import androidx.activity.enableEdgeToEdge
 import com.drake.droidblox.ui.DroidBloxGUI
 import com.drake.droidblox.ui.theme.DroidBloxTheme
-import dagger.hilt.android.AndroidEntryPoint
+//import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
+//@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         //val notifHandler = NotificationHandler(this@MainActivity, "Connected to Server")

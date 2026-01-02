@@ -1,6 +1,8 @@
 // The code here is similar from Kizzy
 // https://github.com/dead8309/Kizzy/blob/master/feature_profile/src/main/java/com/my/kizzy/feature_profile/ui/component/DiscordLoginWebView.kt
 
+// TODO: a lot of BAD code here, refactor after migrating to DI
+
 package com.drake.droidblox.ui.view
 
 import android.annotation.SuppressLint
@@ -22,6 +24,7 @@ import com.drake.droidblox.DBApplication
 import com.drake.droidblox.ui.components.BasicScreen
 import com.drake.droidblox.ui.components.ExtendedButton
 import com.drake.droidblox.ui.view.navigation.Routes
+import kotlinx.coroutines.runBlocking
 
 const val JS_SNIPPET =
     "javascript:(function()%7Bvar%20i%3Ddocument.createElement('iframe')%3Bdocument.body.appendChild(i)%3Balert(i.contentWindow.localStorage.token.slice(1,-1))%7D)()"
@@ -32,14 +35,21 @@ private const val SAMSUNG_USER_AGENT =
 private var buttonTitle by mutableStateOf("Login to Discord")
 private var buttonSubtitle by mutableStateOf("Login to Discord to show your game activity")
 
+private var callbackOfLoginButton = {}
+private var navigateToLastRoute = {}
+private val settingsManager = DBApplication.instance.settingsManager
+private val discordApi = DBApplication.instance.discordApi
+
 @Composable
 fun LoginToDiscordButton(
     navController: NavController?
 ) {
+    navigateToLastRoute = { navController?.navigate(Routes.LOGIN_TO_DISCORD) }
+    callbackOfLoginButton = navigateToLastRoute
     ExtendedButton(
         buttonTitle,
         buttonSubtitle
-    ) { navController?.navigate(Routes.LOGIN_TO_DISCORD) }
+    ) { callbackOfLoginButton() }
 }
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -48,7 +58,6 @@ fun LoginToDiscordScreen(
     navController: NavController? = null,
     lastRoute: String = Routes.INTEGRATIONS
 ) {
-    val settingsManager = DBApplication.instance.settingsManager
     val url = "https://discord.com/login"
     BasicScreen(
         "LoginToDiscordScreen",
@@ -92,11 +101,13 @@ fun LoginToDiscordScreen(
                     override fun onJsAlert(
                         view: WebView,
                         url: String,
-                        message: String,
+                        message: String, // token
                         result: JsResult,
                     ): Boolean {
+                        // final stage of logging in
                         settingsManager.token = message
                         buttonTitle = "Logout of Discord"
+                        putUsernameOnUIAndChangeCallback(message)
                         navController?.navigate(lastRoute)
                         visibility = View.GONE
                         return true
@@ -106,4 +117,27 @@ fun LoginToDiscordScreen(
             }
         })
     }
+}
+
+fun putUsernameOnUIAndChangeCallback(
+    token : String
+) = runBlocking {
+    buttonTitle = "Logout of discord"
+    callbackOfLoginButton = { runBlocking {
+        settingsManager.token = null
+        discordApi.logout(token)
+        buttonTitle = "Login to Discord"
+        buttonSubtitle = "Login to Discord to show your game activity"
+        callbackOfLoginButton = navigateToLastRoute
+
+    } }
+
+    buttonSubtitle = "Fetching username.."
+    val username = discordApi.fetchUsername(token)
+    if (username == null) {
+        buttonSubtitle = "Couldn't fetch username."
+    } else {
+        buttonSubtitle = "Logged in as $username"
+    }
+
 }

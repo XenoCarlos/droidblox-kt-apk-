@@ -3,6 +3,7 @@ package com.drake.droidblox.ui.view
 import android.app.Activity
 import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.NavController
 import com.drake.droidblox.DBApplication
 import com.drake.droidblox.ui.components.BasicScreen

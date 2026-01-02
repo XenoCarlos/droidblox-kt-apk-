@@ -10,12 +10,12 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
-import javax.inject.Inject
+//import javax.inject.Inject
 import kotlinx.serialization.json.Json
-import javax.inject.Singleton
+//import javax.inject.Singleton
 
-@Singleton
-class DiscordApi @Inject constructor(
+//@Singleton
+class DiscordApi (//@Inject constructor(
     private val logger: Logger,
     private val httpClient: HttpClient
 ) {
