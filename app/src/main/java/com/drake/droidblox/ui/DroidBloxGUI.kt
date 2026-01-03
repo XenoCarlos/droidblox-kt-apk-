@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.drake.droidblox.ui.view.AboutScreen
+import com.drake.droidblox.ui.view.FFlagsScreen
 import com.drake.droidblox.ui.view.IntegrationsScreen
 import com.drake.droidblox.ui.view.LoginToDiscordScreen
 //import com.drake.droidblox.ui.view.PlayLogsScreen
@@ -22,6 +23,9 @@ fun DroidBloxGUI() {
 //        }
         animatedComposable(Routes.LOGIN_TO_DISCORD) {
             LoginToDiscordScreen(navController)
+        }
+        animatedComposable(Routes.FFLAGS) {
+            FFlagsScreen(navController)
         }
         animatedComposable(Routes.ABOUT) {
             AboutScreen(navController)

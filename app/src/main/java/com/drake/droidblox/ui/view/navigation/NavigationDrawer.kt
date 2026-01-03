@@ -48,6 +48,14 @@ fun NavigationDrawer(
                     }
                 )
                 NavigationDrawerItem(
+                    label = { Text("Fast Flags") },
+                    selected = screenName == Routes.FFLAGS,
+                    onClick = {
+                        navController?.navigate(Routes.FFLAGS)
+                        scope.launch { drawerState.close() }
+                    }
+                )
+                NavigationDrawerItem(
                     label = { Text("Play Logs") },
                     selected = screenName == Routes.PLAYLOGS,
                     onClick = {
