@@ -15,8 +15,6 @@ import com.drake.droidblox.ui.components.SectionText
 fun FFlagsScreen(
     navController: NavController? = null
 ) {
-    val fflagsManager = DBApplication.instance.fastFlagsManager
-    val settingsManager = DBApplication.instance.settingsManager
     /*
     follows the allowlist: https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569
     Geometry:
@@ -48,165 +46,192 @@ fun FFlagsScreen(
     FFlagHandleAltEnterFullscreenManually
     FFlagDebugGraphicsPreferD3D11
     */
-    BasicScreen("Fast Flags", navController) {
-        ExtendedSwitch(
+
+    val fflagsManager = DBApplication.instance.fastFlagsManager
+    val settingsManager = DBApplication.instance.settingsManager
+
+    val currentFFlags = fflagsManager.fflags
+
+    BasicScreen("Fast Flags", navController, useLazyColumn = true, lazyColumnContents = {
+        // god forgive me for the item lambdas
+        item { ExtendedSwitch(
             "Allow DroidBlox to manage Fast Flags",
             "Disabling this will prevent anything configured here from being applied to Roblox.",
             settingsManager.applyFFlags
-        ) { settingsManager.applyFFlags = it }
+        ) { settingsManager.applyFFlags = it } }
 
-        SectionText("Rendering")
+        item { SectionText("Rendering") }
 
         //TODO("Extended Dropdown Anti-aliasing quality (MSAA)")
-        ExtendedDropdown(
+        item { ExtendedDropdown(
             "Anti-aliasing quality (MSAA)",
             "Smoothens the jagged edges to make textures detailed.",
             listOf(
                 DropdownItem("Automatic") {
-                    fflagsManager.deleteFFlag("FIntDebugForceMSAASamples")
+                    fflagsManager.edit { delete("FIntDebugForceMSAASamples")}
                 },
                 DropdownItem("1x") {
-                    fflagsManager.setFFlag("FIntDebugForceMSAASamples", 1)
+                    fflagsManager.edit { set("FIntDebugForceMSAASamples", "1") }
                 },
                 DropdownItem("2x") {
-                    fflagsManager.setFFlag("FIntDebugForceMSAASamples", 2)
+                    fflagsManager.edit { set("FIntDebugForceMSAASamples", "2") }
                 },
                 DropdownItem("4x") {
-                    fflagsManager.setFFlag("FIntDebugForceMSAASamples", 4)
+                    fflagsManager.edit { set("FIntDebugForceMSAASamples", "4") }
                 }
             )
-        )
-        ExtendedDropdown(
+        ) }
+        item { ExtendedDropdown(
             "Rendering mode",
             "Choose what rendering API to use for Roblox",
             listOf(
                 DropdownItem("Automatic") {
-                    fflagsManager.deleteFFlags(listOf(
-                        "FFlagDebugGraphicsPreferVulkan",
-                        "FFlagDebugGraphicsPreferOpenGL"
-                    ))
+                    fflagsManager.edit {
+                        listOf(
+                            "FFlagDebugGraphicsPreferVulkan",
+                            "FFlagDebugGraphicsPreferOpenGL"
+                        ).forEach {
+                            delete(it)
+                        }
+                    }
                 },
                 DropdownItem("Vulkan") {
-                    fflagsManager.deleteFFlag("FFlagDebugGraphicsPreferOpenGL")
-                    fflagsManager.setFFlag("FFlagDebugGraphicsPreferVulkan", true)
+                    fflagsManager.edit {
+                        delete("FFlagDebugGraphicsPreferOpenGL")
+                        set("FFlagDebugGraphicsPreferVulkan", "true")
+                    }
                 },
                 DropdownItem("OpenGL") { // not necessary but sstill :3
-                    fflagsManager.deleteFFlag("FFlagDebugGraphicsPreferVulkan")
-                    fflagsManager.setFFlag("FFlagDebugGraphicsPreferOpenGL", true)
+                    fflagsManager.edit {
+                        delete("FFlagDebugGraphicsPreferVulkan")
+                        set("FFlagDebugGraphicsPreferOpenGL", "true")
+                    }
                 }
             )
-        )
-        ExtendedDropdown(
+        ) }
+        item { ExtendedDropdown(
             "Texture quality",
             "Choose what level of texture quality to render",
             items = listOf(
                 DropdownItem("Automatic") {
-                    fflagsManager.deleteFFlags(listOf(
-                        "DFFlagTextureQualityOverrideEnabled",
-                        "DFIntTextureQualityOverride"
-                    ))
+                    fflagsManager.edit {
+                        listOf(
+                            "DFFlagTextureQualityOverrideEnabled",
+                            "DFIntTextureQualityOverride"
+                        ).forEach {
+                            delete(it)
+                        }
+                    }
                 },
                 DropdownItem("Level 0") {
-                    fflagsManager.setFFlag("DFFlagTextureQualityOverrideEnabled", true)
-                    fflagsManager.setFFlag("DFIntTextureQualityOverride", 0)
+                    fflagsManager.edit {
+                        set("DFFlagTextureQualityOverrideEnabled", "true")
+                        set("DFIntTextureQualityOverride", "0")
+                    }
                 },
                 DropdownItem("Level 1") {
-                    fflagsManager.setFFlag("DFFlagTextureQualityOverrideEnabled", true)
-                    fflagsManager.setFFlag("DFIntTextureQualityOverride", 1)
+                    fflagsManager.edit {
+                        set("DFFlagTextureQualityOverrideEnabled", "true")
+                        set("DFIntTextureQualityOverride", "1")
+                    }
                 },
                 DropdownItem("Level 2") {
-                    fflagsManager.setFFlag("DFFlagTextureQualityOverrideEnabled", true)
-                    fflagsManager.setFFlag("DFIntTextureQualityOverride", 2)
+                    fflagsManager.edit {
+                        set("DFFlagTextureQualityOverrideEnabled", "true")
+                        set("DFIntTextureQualityOverride", "2")
+                    }
                 },
                 DropdownItem("Level 3") {
-                    fflagsManager.setFFlag("DFFlagTextureQualityOverrideEnabled", true)
-                    fflagsManager.setFFlag("DFIntTextureQualityOverride", 3)
+                    fflagsManager.edit {
+                        set("DFFlagTextureQualityOverrideEnabled", "true")
+                        set("DFIntTextureQualityOverride", "3")
+                    }
                 },
             )
-        )
-        ExtendedSwitch(
+        ) }
+        item { ExtendedSwitch(
             "Override sky to solid gray",
             "Overrides the sky into a solid gray color",
-            fflagsManager.isTrue(fflagsManager.getFFlag("FFlagDebugSkyGray"))
+            currentFFlags["FFlagDebugSkyGray"].toBoolean()
         ) {
-            fflagsManager.setFFlag("FFlagDebugSkyGray", it)
-        }
-        ExtendedSwitch( // TODO: Improve title and subtitle
+            fflagsManager.edit { set("FFlagDebugSkyGray", it.toString()) }
+        } }
+        item { ExtendedSwitch( // TODO: Improve title and subtitle
             "Pause voxelizer",
             "Pauses the voxelizer",
-            fflagsManager.isTrue(fflagsManager.getFFlag("DBFFlagDebugPauseVoxelizer"))
+            currentFFlags["DBFFlagDebugPauseVoxelizer"].toBoolean()
         ) {
-            fflagsManager.setFFlag("DFFlagDebugPauseVoxelizer", it)
-        }
-        ExtendedTextField( // TODO: Improve title and subtitle
+            fflagsManager.edit { set("DFFlagDebugPauseVoxelizer", it.toString()) }
+        } }
+        item { ExtendedTextField( // TODO: Improve title and subtitle
             "Override quality level",
             "Overrides the quality level",
             KeyboardType.Number,
-            fflagsManager.getFFlag("DFIntDebugFRMQualityLevelOverride").toString()
+            currentFFlags["DFIntDebugFRMQualityLevelOverride"]
         ) {
-            fflagsManager.setFFlag("DFIntDebugFRMQualityLevelOverride", it)
-        }
-        ExtendedTextField( // TODO: Improve title and subtitle
+            fflagsManager.edit { set("DFIntDebugFRMQualityLevelOverride", it) }
+        } }
+        item { ExtendedTextField( // TODO: Improve title and subtitle
             "Minimum grass distance",
             "Set the minimum distance of rendering grass",
             KeyboardType.Number,
-            fflagsManager.getFFlag("FIntFRMMinGrassDistance").toString()
+            currentFFlags["FIntFRMMinGrassDistance"]
         ) {
-            fflagsManager.setFFlag("FIntFRMMinGrassDistance", it)
-        }
-        ExtendedTextField( // TODO: Improve title and subtitle
+            fflagsManager.edit { set("FIntFRMMinGrassDistance", it) }
+        } }
+        item { ExtendedTextField( // TODO: Improve title and subtitle
             "Maximum grass distance",
             "Set the maximum distance of rendering grass",
             KeyboardType.Number,
-            fflagsManager.getFFlag("FIntFRMMaxGrassDistance").toString()
+            currentFFlags["FIntFRMMaxGrassDistance"]
         ) {
-            fflagsManager.setFFlag("FIntFRMMaxGrassDistance", it)
-        }
+            fflagsManager.edit { set("FIntFRMMaxGrassDistance", it) }
+        } }
 
-        SectionText("Geometry")
+        item { SectionText("Geometry") }
 
-        ExtendedTextField( // TODO: Improve title and subtitle
+        item { ExtendedTextField( // TODO: Improve title and subtitle
             "LOD for Polygons",
             "Overrides the LOD (Level of Detail) per stud",
             KeyboardType.Number,
-            fflagsManager.getFFlag("DFIntCSGLevelOfDetailSwitchingDistance").toString()
+            currentFFlags["DFIntCSGLevelOfDetailSwitchingDistance"]
         ) {
-            fflagsManager.setFFlag("DFIntCSGLevelOfDetailSwitchingDistance", it)
-        }
-        ExtendedTextField( // TODO: Improve title and subtitle
+            fflagsManager.edit { set("DFIntCSGLevelOfDetailSwitchingDistance", it) }
+        } }
+        item { ExtendedTextField( // TODO: Improve title and subtitle
             "LOD for Polygons L12",
             "Overrides the LOD (Level of Detail) per stud",
             KeyboardType.Number,
-            fflagsManager.getFFlag("DFIntCSGLevelOfDetailSwitchingDistanceL12").toString()
+            currentFFlags["DFIntCSGLevelOfDetailSwitchingDistanceL12"]
         ) {
-            fflagsManager.setFFlag("DFIntCSGLevelOfDetailSwitchingDistanceL12", it)
-        }
-        ExtendedTextField( // TODO: Improve title and subtitle
+            fflagsManager.edit { set("DFIntCSGLevelOfDetailSwitchingDistanceL12", it) }
+        } }
+        item { ExtendedTextField( // TODO: Improve title and subtitle
             "LOD for Polygons L23",
             "Overrides the LOD (Level of Detail) per stud",
             KeyboardType.Number,
-            fflagsManager.getFFlag("DFIntCSGLevelOfDetailSwitchingDistanceL23").toString()
+            currentFFlags["DFIntCSGLevelOfDetailSwitchingDistanceL23"]
         ) {
-            fflagsManager.setFFlag("DFIntCSGLevelOfDetailSwitchingDistanceL23", it)
-        }
-        ExtendedTextField( // TODO: Improve title and subtitle
+            fflagsManager.edit { set("DFIntCSGLevelOfDetailSwitchingDistanceL23", it) }
+        } }
+        item { ExtendedTextField( // TODO: Improve title and subtitle
             "LOD for Polygons L34",
             "Overrides the LOD (Level of Detail) per stud",
             KeyboardType.Number,
-            fflagsManager.getFFlag("DFIntCSGLevelOfDetailSwitchingDistanceL34").toString()
+            currentFFlags["DFIntCSGLevelOfDetailSwitchingDistanceL34"]
         ) {
-            fflagsManager.setFFlag("DFIntCSGLevelOfDetailSwitchingDistanceL34", it)
-        }
+            fflagsManager.edit { set("DFIntCSGLevelOfDetailSwitchingDistanceL34", it) }
+        } }
 
-        SectionText("User Interface")
+        item { SectionText("User Interface") }
 
-        ExtendedTextField( // TODO: Improve title and subtitle
+        item { ExtendedTextField( // TODO: Improve title and subtitle
             "Grass movement reduced motion factor",
             "Overrides the Grass movement reduced motion factor", // what the FUCK should i type
             KeyboardType.Number,
-            fflagsManager.getFFlag("FIntGrassMovementReducedMotionFactor").toString()
+            currentFFlags["FIntGrassMovementReducedMotionFactor"]
         ) {
-            fflagsManager.setFFlag("FIntGrassMovementReducedMotionFactor", it)
-        }
-    }
+            fflagsManager.edit { set("FIntGrassMovementReducedMotionFactor", it) }
+        } }
+    })
 }

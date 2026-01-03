@@ -4,9 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.drake.droidblox.logger.AndroidLogger
+import com.drake.droidblox.sharedprefs.scopes.EditFFlagScope
 import kotlinx.serialization.json.Json
-import java.util.Locale
-import java.util.Locale.getDefault
 
 /*
 fun fact that you might know already
@@ -18,6 +17,9 @@ FFlagDebugSkyGray can be either set as the following:
 1. true
 2. "true"
 3. "True"
+4. false
+5. "false"
+6. "False"
 etc
  */
 class FastFlagsManager(
@@ -31,13 +33,15 @@ class FastFlagsManager(
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("fflags", Context.MODE_PRIVATE)
 
-    var fflags: MutableMap<String, Any?>
+    val rawFFlags: String?
+        get() = sharedPreferences.getString("fflags", null)
+    var fflags: MutableMap<String, String>
         get() {
-            val jsonString = sharedPreferences.getString("fflags", null)
-            var toReturn: MutableMap<String, Any?> = mutableMapOf()
+            val jsonString = rawFFlags
+            var toReturn: MutableMap<String, String> = mutableMapOf()
             if (jsonString != null) {
                 try {
-                    toReturn = Json.decodeFromString<MutableMap<String, Any?>>(jsonString)
+                    toReturn = Json.decodeFromString<MutableMap<String, String>>(jsonString)
                 } catch (e: Exception) {
                     logger.e(TAG, "Something went wrong while getting fast flags!; ${e.message}")
                     toReturn = mutableMapOf()
@@ -52,30 +56,12 @@ class FastFlagsManager(
             sharedPreferences.edit { putString("fflags", jsonString) }
         }
 
-    fun getFFlag(key: String): Any? = fflags[key]
-    fun setFFlag(key: String, value: Any) {
-        val currentFFlag = fflags
-        currentFFlag[key] = value
-        fflags = currentFFlag
-    }
-    fun deleteFFlag(key: String) {
-        val currentFFlag = fflags
-        currentFFlag.remove(key)
-        fflags = currentFFlag
-    }
-    fun deleteFFlags(keys: List<String>) {
-        val currentFFlag = fflags
-        keys.forEach {
-            currentFFlag.remove(it)
-        }
-        fflags = currentFFlag
-    }
-
-    fun isTrue(value: Any?): Boolean {
-        return when (value) {
-            is String -> value.lowercase(getDefault()) == "true"
-            is Boolean -> value
-            else -> false
-        }
+    fun getFFlag(key: String): String? = fflags[key]
+    fun edit(block: (EditFFlagScope.() -> Unit)) {
+        val currentFFlags = fflags
+        val scope = EditFFlagScope(currentFFlags)
+        scope.block()
+        currentFFlags.putAll(scope.fflagsToEdit)
+        fflags = currentFFlags
     }
 }
