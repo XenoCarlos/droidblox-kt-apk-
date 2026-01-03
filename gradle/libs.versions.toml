@@ -37,6 +37,7 @@ junitJupiter = "6.0.1"
 kizzyRPC = "1.0.71"
 
 # Kotlin
+jetbrainsKotlinJvm = "2.3.0"
 kotlin = "2.3.0"
 kotlinxSerializationJson = "1.9.0"
 
@@ -120,5 +121,6 @@ dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "da
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "devtoolsKsp"}
 
 # Kotlin
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
