@@ -22,4 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "DroidBlox"
 include(":app")
-include(":robloxpatch")
+include(":hook")
