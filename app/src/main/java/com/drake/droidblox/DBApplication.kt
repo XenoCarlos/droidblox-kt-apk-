@@ -8,6 +8,7 @@ import com.drake.droidblox.apiservice.IpLocationApi
 import com.drake.droidblox.apiservice.RobloxApi
 import com.drake.droidblox.apiservice.httpclient.customHttpClient
 import com.drake.droidblox.logger.AndroidLogger
+import com.drake.droidblox.sharedprefs.FastFlagsManager
 import com.drake.droidblox.sharedprefs.PlaySessionsManager
 import com.drake.droidblox.sharedprefs.SettingsManager
 //import dagger.hilt.android.HiltAndroidApp
@@ -22,6 +23,7 @@ class DBApplication : Application() {
 
     val settingsManager: SettingsManager by lazy { SettingsManager(applicationContext) }
     val playSessionsManager: PlaySessionsManager by lazy { PlaySessionsManager(applicationContext) }
+    val fastFlagsManager: FastFlagsManager by lazy { FastFlagsManager(applicationContext) }
 
     // TODO: depend on DI
     private val httpClient = customHttpClient(AndroidLogger)

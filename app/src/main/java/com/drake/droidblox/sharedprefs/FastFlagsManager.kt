@@ -1,0 +1,81 @@
+package com.drake.droidblox.sharedprefs
+
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.core.content.edit
+import com.drake.droidblox.logger.AndroidLogger
+import kotlinx.serialization.json.Json
+import java.util.Locale
+import java.util.Locale.getDefault
+
+/*
+fun fact that you might know already
+fast flags that are labeled FFlag, FInt, DFFlag, DFInt, etc
+can be set as strings
+
+example:
+FFlagDebugSkyGray can be either set as the following:
+1. true
+2. "true"
+3. "True"
+etc
+ */
+class FastFlagsManager(
+    context: Context
+) {
+    companion object {
+        private const val TAG = "DBFFlagManager"
+        private val logger = AndroidLogger
+    }
+
+    private val sharedPreferences: SharedPreferences =
+        context.getSharedPreferences("fflags", Context.MODE_PRIVATE)
+
+    var fflags: MutableMap<String, Any?>
+        get() {
+            val jsonString = sharedPreferences.getString("fflags", null)
+            var toReturn: MutableMap<String, Any?> = mutableMapOf()
+            if (jsonString != null) {
+                try {
+                    toReturn = Json.decodeFromString<MutableMap<String, Any?>>(jsonString)
+                } catch (e: Exception) {
+                    logger.e(TAG, "Something went wrong while getting fast flags!; ${e.message}")
+                    toReturn = mutableMapOf()
+                }
+            }
+            logger.d(TAG, "get = $toReturn")
+            return toReturn
+        }
+        set(value) {
+            val jsonString = Json.encodeToString(value)
+            logger.d(TAG, "set = $jsonString")
+            sharedPreferences.edit { putString("fflags", jsonString) }
+        }
+
+    fun getFFlag(key: String): Any? = fflags[key]
+    fun setFFlag(key: String, value: Any) {
+        val currentFFlag = fflags
+        currentFFlag[key] = value
+        fflags = currentFFlag
+    }
+    fun deleteFFlag(key: String) {
+        val currentFFlag = fflags
+        currentFFlag.remove(key)
+        fflags = currentFFlag
+    }
+    fun deleteFFlags(keys: List<String>) {
+        val currentFFlag = fflags
+        keys.forEach {
+            currentFFlag.remove(it)
+        }
+        fflags = currentFFlag
+    }
+
+    fun isTrue(value: Any?): Boolean {
+        return when (value) {
+            is String -> value.lowercase(getDefault()) == "true"
+            is Boolean -> value
+            else -> false
+        }
+    }
+}
