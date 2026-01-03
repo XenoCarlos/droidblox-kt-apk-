@@ -16,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import io.ktor.util.reflect.instanceOf
 
 @Composable
 fun ExtendedTextField(
@@ -24,10 +23,9 @@ fun ExtendedTextField(
     subtitle: String,
     keyboardType: KeyboardType = KeyboardType.Text,
     default: String = "",
-    onLostFocus: ((text: String) -> Unit) = {}
+    onLostFocus: (String) -> Unit = {}
 ) {
-    var text by remember { mutableStateOf("") }
-    var focused by remember { mutableStateOf(false) }
+    var text by remember { mutableStateOf(default) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -39,6 +37,8 @@ fun ExtendedTextField(
         }
         OutlinedTextField(
             value = text,
+            singleLine = true,
+            maxLines = 1,
             onValueChange = { text = it },
             keyboardOptions = KeyboardOptions(
                 keyboardType = keyboardType
@@ -46,8 +46,7 @@ fun ExtendedTextField(
             modifier = Modifier
                 .fillMaxWidth(0.4f)
                 .onFocusChanged {
-                    if (it.isFocused && !focused) onLostFocus(text)
-                    focused = it.isFocused
+                    if (!it.isFocused) onLostFocus(text)
                 }
         )
     }

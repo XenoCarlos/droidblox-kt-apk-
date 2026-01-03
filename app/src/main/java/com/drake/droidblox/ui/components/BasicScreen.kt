@@ -53,7 +53,7 @@ fun BasicScreen(
                         }) {
                             Icon(
                                 navIcon,
-                                ""
+                                "Navigation Icon" // who the fuck uses this
                             )
                         }
                     }
