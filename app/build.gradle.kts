@@ -53,6 +53,10 @@ android {
 }
 
 dependencies {
+    // Roblox Stub
+    compileOnly(files("/home/drake/AndroidStudioProjects/DroidBloxMeow/app/libs/robloxstub.jar"))
+
+    // DroidBlox Core
     // AndroidX
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material.icons.core)
