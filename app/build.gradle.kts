@@ -6,10 +6,14 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 
+    // Kapt
+    kotlin("kapt")
+
     // Ktor
     kotlin("plugin.serialization") version "2.2.0"
 
     // Hilt
+    alias(libs.plugins.dagger.hilt.android)
     //alias(libs.plugins.dagger.hilt.android)
     //alias(libs.plugins.google.devtools.ksp)
 }
@@ -53,8 +57,11 @@ android {
 }
 
 dependencies {
+    // Hooks
+    implementation(project(":hooks"))
+
     // Roblox Stub
-    compileOnly(files("/home/drake/AndroidStudioProjects/DroidBloxMeow/app/libs/robloxstub.jar"))
+    compileOnly(project(":robloxstub"))
 
     // DroidBlox Core
     // AndroidX
@@ -81,8 +88,13 @@ dependencies {
     implementation(libs.coil3.network.ktor3)
 
     // Dagger Hilt
-    //implementation(libs.dagger.hilt.android)
-    //ksp(libs.dagger.hilt.compiler)
+    implementation(libs.dagger.hilt.android)
+    androidTestImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.dagger.hilt.android.testing)
+
+    kapt(libs.dagger.hilt.compiler)
+    kaptAndroidTest(libs.dagger.hilt.compiler)
+    kaptTest(libs.dagger.hilt.compiler)
 
     // Google Accompanist
     implementation(libs.accompanist.navigation.animation)
@@ -101,14 +113,15 @@ dependencies {
     implementation(libs.org.jetbrains.kotlin.plugin.serialization.gradle.plugin)
 
     // Javax
-    //implementation(libs.javax)
+    implementation(libs.javax)
 
     // Junit
     testImplementation(libs.junit)
     testImplementation(libs.junit.jupiter)
+}
 
-    // Pine
-    //implementation(libs.pine.xposed)
+kapt {
+    correctErrorTypes = true
 }
 
 // https://stackoverflow.com/a/79612057
