@@ -17,9 +17,11 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven { url = uri("https://jitpack.io") }
+        maven { url = uri("https://maven.aliucord.com/releases") }
     }
 }
 
 rootProject.name = "DroidBlox"
 include(":app")
-include(":hook")
+include(":robloxstub")
+include(":hooks")
