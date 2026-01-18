@@ -44,7 +44,6 @@ fun NavigationDrawer(
                     selected = screenName == Routes.INTEGRATIONS,
                     onClick = {
                         navController?.navigate(Routes.INTEGRATIONS)
-                        scope.launch { drawerState.close() }
                     }
                 )
                 NavigationDrawerItem(
@@ -52,23 +51,20 @@ fun NavigationDrawer(
                     selected = screenName == Routes.FFLAGS,
                     onClick = {
                         navController?.navigate(Routes.FFLAGS)
-                        scope.launch { drawerState.close() }
                     }
                 )
-                NavigationDrawerItem(
-                    label = { Text("Play Logs") },
-                    selected = screenName == Routes.PLAYLOGS,
-                    onClick = {
-                        navController?.navigate(Routes.PLAYLOGS)
-                        scope.launch { drawerState.close() }
-                    }
-                )
+//                NavigationDrawerItem(
+//                    label = { Text("Play Logs") },
+//                    selected = screenName == Routes.PLAYLOGS,
+//                    onClick = {
+//                        navController?.navigate(Routes.PLAYLOGS)
+//                    }
+//                )
                 NavigationDrawerItem(
                     label = { Text("About") },
                     selected = screenName == Routes.ABOUT,
                     onClick = {
                         navController?.navigate(Routes.ABOUT)
-                        scope.launch { drawerState.close() }
                     }
                 )
             }
