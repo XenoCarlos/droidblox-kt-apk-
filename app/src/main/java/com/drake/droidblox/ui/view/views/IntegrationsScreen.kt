@@ -70,7 +70,7 @@ internal fun PreviewIntegrationsScreen() {
     ) {
         val logger = TestLogger
         IntegrationsScreen(IntegrationsScreenVM(
-            application = null,
+            context = null,
             settingsManager = SettingsManager(
                 logger = logger,
                 context = LocalContext.current
