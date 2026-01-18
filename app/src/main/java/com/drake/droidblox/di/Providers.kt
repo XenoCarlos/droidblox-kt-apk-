@@ -10,6 +10,7 @@ import com.drake.droidblox.apiservice.httpclient.customHttpClient
 import com.drake.droidblox.logger.AndroidLogger
 import com.drake.droidblox.logger.Logger
 import com.drake.droidblox.sharedprefs.SettingsManager
+import com.drake.droidblox.sharedprefs.FastFlagsManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -59,7 +60,7 @@ object Providers {
 
     @Provides
     @Singleton
-    fun provideApplication(): Application {
-        return DBApplication.instance // I don't FUCKING know what I am doing right now
+    fun provideFFlagsManager(logger: Logger, @ApplicationContext context: Context): FastFlagsManager {
+        return FastFlagsManager(logger, context)
     }
 }

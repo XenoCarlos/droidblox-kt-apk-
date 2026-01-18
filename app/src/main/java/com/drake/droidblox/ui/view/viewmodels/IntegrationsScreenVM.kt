@@ -1,6 +1,6 @@
 package com.drake.droidblox.ui.view.viewmodels
 
-import android.app.Application
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.drake.droidblox.sharedprefs.SettingsManager
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,10 +9,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class IntegrationsScreenVM @Inject constructor(
-    @ApplicationContext private val application: Application?,
+    @ApplicationContext private val context: Context?,
     val settingsManager: SettingsManager
 ) : ViewModel() {
-    fun launchRoblox() = application?.let {
+    fun launchRoblox() = context?.let {
         com.drake.droidblox.roblox.launchRoblox(context = it)
     }
 }
