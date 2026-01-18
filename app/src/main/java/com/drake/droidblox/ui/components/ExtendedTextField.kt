@@ -22,10 +22,10 @@ fun ExtendedTextField(
     title: String,
     subtitle: String,
     keyboardType: KeyboardType = KeyboardType.Text,
-    default: String = "",
+    default: String? = "",
     onLostFocus: (String) -> Unit = {}
 ) {
-    var text by remember { mutableStateOf(default) }
+    var text by remember { mutableStateOf(default ?: "") }
     Row(
         modifier = Modifier
             .fillMaxWidth()

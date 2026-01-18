@@ -1,0 +1,10 @@
+package com.drake.droidblox.apiservice.models.ipinfo
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class IpLocation(
+    val city: String,
+    val region: String,
+    val country: String
+)

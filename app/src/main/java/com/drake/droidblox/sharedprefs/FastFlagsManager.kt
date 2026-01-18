@@ -4,30 +4,33 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.drake.droidblox.logger.AndroidLogger
+import com.drake.droidblox.logger.Logger
 import com.drake.droidblox.sharedprefs.scopes.EditFFlagScope
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
+import javax.inject.Inject
 
 /*
-fun fact that you might know already
-fast flags that are labeled FFlag, FInt, DFFlag, DFInt, etc
-can be set as strings
-
-example:
-FFlagDebugSkyGray can be either set as the following:
-1. true
-2. "true"
-3. "True"
-4. false
-5. "false"
-6. "False"
-etc
+ * fun fact that you might know already
+ * fast flags that are labeled FFlag, FInt, DFFlag, DFInt, etc
+ * can be set as strings
+ *
+ * example:
+ * FFlagDebugSkyGray can be either set as the following:
+ * 1. true
+ * 2. "true"
+ * 3. "True"
+ * 4. false
+ * 5. "false"
+ * 6. "False"
+ * etc
  */
-class FastFlagsManager(
-    context: Context
+class FastFlagsManager @Inject constructor(
+    private val logger: Logger,
+    @ApplicationContext private val context: Context
 ) {
     companion object {
         private const val TAG = "DBFFlagManager"
-        private val logger = AndroidLogger
     }
 
     private val sharedPreferences: SharedPreferences =

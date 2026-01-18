@@ -3,21 +3,23 @@ package com.drake.droidblox.sharedprefs
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.drake.droidblox.logger.AndroidLogger
+import com.drake.droidblox.logger.Logger
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class SettingsManager(
-    context: Context
+class SettingsManager @Inject constructor(
+    private val logger: Logger,
+    @ApplicationContext private val context: Context
 ) {
     companion object {
         private const val TAG = "DBSettingsManager"
-        private val logger = AndroidLogger
     }
+
     private val sharedPreferences: SharedPreferences =
         context.getSharedPreferences("settings", Context.MODE_PRIVATE)
-
-    private class BooleanBased(
+    private inner class BooleanBased(
         private val key: String,
         private val default: Boolean
     ): ReadWriteProperty<SettingsManager, Boolean> {
@@ -32,7 +34,7 @@ class SettingsManager(
             thisRef.sharedPreferences.edit { putBoolean(key, value) }
         }
     }
-    private class StringBased(
+    private inner class StringBased(
         private val key: String,
         private val default: String?,
         private val redacted: Boolean? = false

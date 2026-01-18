@@ -11,9 +11,8 @@ fun SectionText(
     text: String
 ) {
     Text(
-        text,
-        fontSize = 15.sp,
-        fontWeight = FontWeight.Bold,
+        text = text,
+        style = MaterialTheme.typography.titleMedium,
         color = MaterialTheme.colorScheme.primary
     )
 }

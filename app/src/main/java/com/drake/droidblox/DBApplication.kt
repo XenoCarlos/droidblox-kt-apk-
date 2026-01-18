@@ -1,5 +1,6 @@
 package com.drake.droidblox
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.util.Log
@@ -11,25 +12,28 @@ import com.drake.droidblox.logger.AndroidLogger
 import com.drake.droidblox.sharedprefs.FastFlagsManager
 import com.drake.droidblox.sharedprefs.PlaySessionsManager
 import com.drake.droidblox.sharedprefs.SettingsManager
-//import dagger.hilt.android.HiltAndroidApp
+import com.drake.robloxhooks.Loader
 
-//@HiltAndroidApp
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
 class DBApplication : Application() {
     companion object {
         private const val TAG = "DBApplication"
+        @SuppressLint("StaticFieldLeak")
         lateinit var instance: DBApplication
             private set
     }
 
-    val settingsManager: SettingsManager by lazy { SettingsManager(applicationContext) }
-    val playSessionsManager: PlaySessionsManager by lazy { PlaySessionsManager(applicationContext) }
-    val fastFlagsManager: FastFlagsManager by lazy { FastFlagsManager(applicationContext) }
+//    val settingsManager: SettingsManager by lazy { SettingsManager(applicationContext) }
+//    val playSessionsManager: PlaySessionsManager by lazy { PlaySessionsManager(applicationContext) }
+//    val fastFlagsManager: FastFlagsManager by lazy { FastFlagsManager(applicationContext) }
 
     // TODO: depend on DI
-    private val httpClient = customHttpClient(AndroidLogger)
-    val discordApi: DiscordApi by lazy { DiscordApi(AndroidLogger, httpClient) }
-    val ipLocationApi: IpLocationApi by lazy { IpLocationApi(AndroidLogger, httpClient) }
-    val robloxApi: RobloxApi by lazy { RobloxApi(AndroidLogger, httpClient) }
+//    private val httpClient = customHttpClient(AndroidLogger)
+//    val discordApi: DiscordApi by lazy { DiscordApi(AndroidLogger, httpClient) }
+//    val ipLocationApi: IpLocationApi by lazy { IpLocationApi(AndroidLogger, httpClient) }
+//    val robloxApi: RobloxApi by lazy { RobloxApi(AndroidLogger, httpClient) }
 
     override fun onCreate() {
         super.onCreate()
