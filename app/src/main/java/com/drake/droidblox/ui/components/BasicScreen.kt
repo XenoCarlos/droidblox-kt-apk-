@@ -52,8 +52,8 @@ fun BasicScreen(
                             }
                         }) {
                             Icon(
-                                navIcon,
-                                "Navigation Icon" // who the fuck uses this
+                                imageVector = navIcon,
+                                contentDescription = "Navigation Icon" // who the fuck uses this
                             )
                         }
                     }
