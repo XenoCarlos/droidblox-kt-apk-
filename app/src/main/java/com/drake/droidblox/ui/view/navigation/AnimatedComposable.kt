@@ -1,3 +1,5 @@
+// https://github.com/dead8309/Kizzy/blob/master/common/navigation/src/main/java/com/my/kizzy/navigation/AnimatedNavGraphBuilder.kt
+
 package com.drake.droidblox.ui.view.navigation
 
 import androidx.compose.animation.AnimatedVisibilityScope
@@ -16,18 +18,24 @@ fun NavGraphBuilder.animatedComposable(
 ) = composable(
     route = route,
     enterTransition = {
-        fadeIn(animationSpec = tween(300)) +
-                scaleIn(initialScale = 0.85f, animationSpec = tween(400))
+        fadeIn(animationSpec = tween(220, delayMillis = 90)) +
+                scaleIn(
+                    initialScale = 0.92f,
+                    animationSpec = tween(220, delayMillis = 90)
+                )
     },
     popEnterTransition = {
-        fadeIn(animationSpec = tween(300)) +
-                scaleIn(initialScale = 0.85f, animationSpec = tween(400))
+        fadeIn(animationSpec = tween(220, delayMillis = 90)) +
+                scaleIn(
+                    initialScale = 0.92f,
+                    animationSpec = tween(220, delayMillis = 90)
+                )
     },
     exitTransition = {
-        fadeOut(animationSpec = tween(300))
+        fadeOut(animationSpec = tween(90))
     },
     popExitTransition = {
-        fadeOut(animationSpec = tween(300))
+        fadeOut(animationSpec = tween(90))
     },
     content = content
 )
