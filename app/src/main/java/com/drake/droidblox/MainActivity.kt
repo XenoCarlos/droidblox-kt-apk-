@@ -11,7 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        //val notifHandler = NotificationHandler(this@MainActivity, "Connected to Server")
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {

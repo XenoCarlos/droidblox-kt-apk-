@@ -1,6 +1,38 @@
 package com.drake.droidblox.ui.view.views
 
-private const val TAG = "DBPlayLogs"
+import android.annotation.SuppressLint
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import com.drake.droidblox.logger.TestLogger
+import com.drake.droidblox.sharedprefs.SettingsManager
+import com.drake.droidblox.ui.components.BasicScreen
+import com.drake.droidblox.ui.view.viewmodels.IntegrationsScreenVM
+
+@Composable
+fun PlayLogsScreen(
+    navController: NavController? = null
+) {
+    BasicScreen("Play Logs", navController, useLazyColumn = true, lazyColumnContents = {
+
+    }) {
+
+    }
+}
+
+@SuppressLint("ViewModelConstructorInComposable")
+@Preview(showBackground = true)
+@Composable
+internal fun PlayLogsScreenPreview() {
+    CompositionLocalProvider(
+        LocalContext provides LocalContext.current
+    ) {
+        val logger = TestLogger
+        PlayLogsScreen()
+    }
+}
 // TODO: refactor code here
 //@Composable
 //fun PlayLogsScreen(
