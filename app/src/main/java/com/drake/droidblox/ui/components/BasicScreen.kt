@@ -2,6 +2,7 @@ package com.drake.droidblox.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,11 +30,12 @@ import kotlinx.coroutines.launch
 fun BasicScreen(
     name: String,
     navController: NavController? = null,
+    useColumn: Boolean = true,
     useLazyColumn: Boolean = false,
     navIcon: ImageVector = Icons.Default.Menu,
     navIconOnClick: (() -> Unit)? = null,
     lazyColumnContents: LazyListScope.() -> Unit = {},
-    columnContents: @Composable (() -> Unit) = {}
+    contents: @Composable ((contentPadding: PaddingValues) -> Unit) = {}
 ) {
     NavigationDrawer(
         screenName = name,
@@ -69,7 +71,7 @@ fun BasicScreen(
                     verticalArrangement = Arrangement.spacedBy(15.dp),
                     content = lazyColumnContents
                 )
-            } else {
+            } else if (useColumn) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -77,7 +79,9 @@ fun BasicScreen(
                         .padding(15.dp)
                         .verticalScroll(rememberScrollState()),
                     verticalArrangement = Arrangement.spacedBy(15.dp)
-                ) { columnContents() }
+                ) { contents(contentPadding) }
+            } else {
+                contents(contentPadding)
             }
         }
     }
